@@ -5,22 +5,20 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Accounts {
+@Getter
+@Setter
+public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id;
-     Long userId;
-     double balance;
+    Long id;
+    Long accountId;
+    double amount;
+    String type;
 
 
 }

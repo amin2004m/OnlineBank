@@ -5,19 +5,16 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Data
-@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor
-public class User {
-
+@Table(name = "accounts")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
-    Long id;
-    @Column(unique = true)
-    Long userId;
-    String username;
-    String password;
-
+      Long id;
+      Long userId;
+      double balance;
 }
