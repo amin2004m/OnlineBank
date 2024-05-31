@@ -1,13 +1,11 @@
 package az.bank.OnlineBank.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
@@ -15,10 +13,11 @@ import lombok.experimental.FieldDefaults;
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    Long accountId;
+    Long transactionsId;
     double amount;
     String type;
 
+    @OneToOne
+    Account account;
 
 }

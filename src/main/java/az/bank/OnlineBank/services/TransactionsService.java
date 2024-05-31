@@ -21,7 +21,7 @@ public class TransactionsService {
         double currentBalance = accountService.getAccountById(accountId).getBalance();
         if (currentBalance >= amount) {
             Transactions withdraw = new Transactions();
-            withdraw.setAccountId(accountId);
+            withdraw.setTransactionsId(accountId);
             withdraw.setAmount(-amount);
             withdraw.setType("outcome");
             transactionRepository.save(withdraw);
@@ -33,7 +33,7 @@ public class TransactionsService {
     }
     public Transactions deposit(Long accountId, double amount) {
         Transactions deposit = new Transactions();
-        deposit.setAccountId(accountId);
+        deposit.setTransactionsId(accountId);
         deposit.setAmount(amount);
         deposit.setType("income");
         transactionRepository.save(deposit);

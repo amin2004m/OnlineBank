@@ -5,7 +5,6 @@ import az.bank.OnlineBank.services.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestParam String username,@RequestParam(required = false) Long userId,@RequestParam String password) {
+    public User login(@RequestParam String username, @RequestParam(required = false) Long userId, @RequestParam String password) {
         return services.login(username, password);
     }
 }
