@@ -37,9 +37,9 @@ public class UserController {
     public User login(@RequestParam String username, @RequestParam String password) {
         return userService.login(username,password);
     }
-    @GetMapping("{id}")
+    @GetMapping("id/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Optional<User> findUserById(@RequestParam Long id){
+    public User findUserById(@RequestParam Long id){
        return userService.findUserById(id);
     }
 }

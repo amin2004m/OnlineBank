@@ -28,15 +28,15 @@ public class UserService {
 
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
-        List<UserDto> userDto = users
+        return users
                 .stream()
                 .map(user -> modelMapper.map(user, UserDto.class))
                 .collect(Collectors.toList());
-        return userDto;
     }
 
     public User register(User user) {
 
+        //TODO change this method logic to ifPresentOrElse
         Optional<User> existedUser = userRepository
                 .findByUsername(user.getUsername());
 
@@ -49,19 +49,16 @@ public class UserService {
 
     public User login(String username, String password) {
         return userRepository
-                .findByUsernameAndPassword(username, password);
+                .findByUsernameAndPassword(username, password)
+                .orElseThrow(() -> ServiceException.of(USER_NOT_FOUND));
     }
 
-    public Optional<User> findUserById(Long id) {
-        Optional<User> findUser = userRepository
-                .findById(id);
-        if (findUser.isPresent()) {
-            throw ServiceException
-                    .of(USER_NOT_FOUND);
-        }
-        return userRepository.findById(id);
+    public User findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> ServiceException.of(USER_NOT_FOUND));
     }
-}
+
+
 //
 //        List<UserDto> userDtoList = users.stream().map(
 //                user -> {
@@ -74,3 +71,5 @@ public class UserService {
 //                }
 //        ).toList();
 //        return userDtoList;
+
+}

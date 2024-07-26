@@ -11,7 +11,8 @@ import lombok.experimental.FieldDefaults;
 public enum ErrorEnum {
 
     USER_ALREADY_EXCEPTION(46, "User already exist !"),
-    USER_NOT_FOUND(404, "User not found !");
+    USER_NOT_FOUND(404, "User not found !"),
+    PAN_NOT_CREATED(404,"Pan should not be empty");
 
     int errorCode;
     String errorMessage;

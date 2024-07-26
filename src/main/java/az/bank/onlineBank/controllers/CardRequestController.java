@@ -1,21 +1,31 @@
 package az.bank.onlineBank.controllers;
 
 import az.bank.onlineBank.dto.CardRequest;
+import az.bank.onlineBank.entities.Card;
+import az.bank.onlineBank.services.CardRequestService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("v1/card")
-@RestController
+
+@Data
 @Validated
+@RestController
+@RequestMapping("v1/card")
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
 public class CardRequestController {
+    CardRequestService cardRequestService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> validateCard(@Valid @RequestBody CardRequest cardRequest) {
-        return ResponseEntity.ok("PAN is valid: " + cardRequest.getPan());
+    public Card createPan(@RequestBody @Valid CardRequest card){
+        return cardRequestService.createCard(card);
     }
 
 

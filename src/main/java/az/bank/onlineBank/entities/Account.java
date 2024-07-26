@@ -18,6 +18,7 @@ public class Account  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     Double balance = 0.0;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

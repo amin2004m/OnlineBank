@@ -30,7 +30,9 @@ public class AccountService {
 
         account.setUser(user);
         Account savedAccount = accountRepository.save(account);
-        user.setAccount((List<Account>) savedAccount);
+        List<Account> accountList = user.getAccount();
+        accountList.add(savedAccount);
+        user.setAccount(accountList);
         userRepository.save(user);
 
         return account;

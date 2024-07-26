@@ -1,7 +1,9 @@
 package az.bank.onlineBank.exception;
 
 import az.bank.onlineBank.exceptionEnum.ErrorEnum;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class ServiceException extends RuntimeException {
 
     public  ServiceException(int code, String errorMessage) {
