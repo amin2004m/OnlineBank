@@ -1,4 +1,4 @@
-package az.bank.OnlineBank.entities;
+package az.bank.onlineBank.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,33 +6,35 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long userId;
+    Long userID;
 
-    @Column(nullable = false,unique = true)
+    @Column(unique = true)
     String username;
-    @Column(nullable = false)
+
     String password;
 
-    @ManyToOne
-    Account account;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", nullable = true)
+    List<Account> account;
 
     @CreationTimestamp
     LocalDateTime createdAt;
+
     @UpdateTimestamp
     LocalDateTime updatedAt;
     Boolean isActive = true;
-
 }

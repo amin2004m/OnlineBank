@@ -1,31 +1,37 @@
-package az.bank.OnlineBank.controllers;
+package az.bank.onlineBank.controllers;
 
-import az.bank.OnlineBank.entities.Transactions;
-import az.bank.OnlineBank.services.TransactionsService;
+import az.bank.onlineBank.entities.Transactions;
+import az.bank.onlineBank.services.TransactionsService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/transactions")
 @RequiredArgsConstructor
+@RequestMapping("/v1/transactions")
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class TransactionController {
     TransactionsService transactionsService;
 
     @GetMapping("/balance/{accountId}")
-    public double checkBalance(@PathVariable Long accountId) {
-        return transactionsService.checkBalance(accountId);
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> checkBalance(@PathVariable Long accountId) {
+        return ResponseEntity
+                .ok(transactionsService.checkBalance(accountId));
     }
 
     @PostMapping("/withdraw/{accountId}")
+    @ResponseStatus(HttpStatus.OK)
     public Transactions withdraw(@PathVariable Long accountId, @RequestParam double amount) {
-        return transactionsService.withdraw(accountId, amount);
+        return transactionsService.withdraw(accountId,amount);
     }
 
     @PostMapping("/deposit/{accountId}")
+    @ResponseStatus(HttpStatus.OK)
     public Transactions deposit(@PathVariable Long accountId, @RequestParam double amount) {
-        return transactionsService.deposit(accountId, amount);
+        return transactionsService.deposit(accountId,amount);
     }
 }

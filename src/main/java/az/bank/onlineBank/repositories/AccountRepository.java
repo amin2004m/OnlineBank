@@ -1,6 +1,6 @@
-package az.bank.OnlineBank.repositories;
+package az.bank.onlineBank.repositories;
 
-import az.bank.OnlineBank.entities.Account;
+import az.bank.onlineBank.entities.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

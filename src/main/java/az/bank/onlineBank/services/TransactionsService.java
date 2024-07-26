@@ -1,7 +1,7 @@
-package az.bank.OnlineBank.services;
+package az.bank.onlineBank.services;
 
-import az.bank.OnlineBank.entities.Transactions;
-import az.bank.OnlineBank.repositories.TransactionRepository;
+import az.bank.onlineBank.entities.Transactions;
+import az.bank.onlineBank.repositories.TransactionRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +18,10 @@ public class TransactionsService {
     }
 
     public Transactions withdraw(Long accountId, double amount) {
-        double currentBalance = accountService.getAccountById(accountId).getBalance();
+        double currentBalance = accountService
+                .getAccountById(accountId)
+                .getBalance();
+
         if (currentBalance >= amount) {
             Transactions withdraw = new Transactions();
             withdraw.setTransactionsId(accountId);

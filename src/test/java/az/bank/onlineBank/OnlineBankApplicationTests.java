@@ -1,4 +1,4 @@
-package az.bank.OnlineBank;
+package az.bank.onlineBank;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
