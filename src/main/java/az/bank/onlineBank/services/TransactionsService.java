@@ -1,12 +1,16 @@
 package az.bank.onlineBank.services;
 
+import az.bank.onlineBank.dto.TransactionsDto;
 import az.bank.onlineBank.entities.Transactions;
 import az.bank.onlineBank.exception.ServiceException;
+import az.bank.onlineBank.mapper.TransactionMapper;
 import az.bank.onlineBank.repositories.TransactionRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -15,12 +19,12 @@ public class TransactionsService {
     TransactionRepository transactionRepository;
     AccountService accountService;
 
-    public double checkBalance(Long accountId) {
+    public BigDecimal checkBalance(Long accountId, TransactionsDto transactionsDto) {
         return accountService.getAccountById(accountId).getBalance();
     }
 
-    public Transactions withdraw(Long accountId, double amount) {
-        double currentBalance = accountService
+    public Transactions withdraw(Long accountId, BigDecimal amount) {
+        BigDecimal currentBalance = accountService
                 .getAccountById(accountId)
                 .getBalance();
 
@@ -30,7 +34,7 @@ public class TransactionsService {
 
     }
 
-    public Transactions deposit(Long accountId, double amount) {
+    public Transactions deposit(Long accountId, BigDecimal amount) {
         Transactions deposit = new Transactions();
         deposit.setTransactionsId(accountId);
         deposit.setAmount(amount);
@@ -39,17 +43,20 @@ public class TransactionsService {
         return deposit;
     }
 
-    private void checkEnoughBalance(double currentBalance, double amount) {
-        if (currentBalance < amount) {
+    private void checkEnoughBalance(BigDecimal currentBalance, BigDecimal amount) {
+        if (currentBalance.compareTo(amount)<0) {
             System.out.println("Transaction Failed !");
             throw ServiceException.of(101, "Balance is not enough");
         }
     }
 
-    private Transactions doTransaction(Long accountId, double amount) {
+    private Transactions doTransaction(Long accountId, BigDecimal amount) {
+
+        BigDecimal newAmount = amount.subtract(BigDecimal.ONE);
+
         Transactions withdraw = new Transactions();
         withdraw.setTransactionsId(accountId);
-        withdraw.setAmount(-amount);
+        withdraw.setAmount(newAmount);
         withdraw.setType("outcome");
         return transactionRepository.save(withdraw);
     }

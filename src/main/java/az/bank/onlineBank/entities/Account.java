@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -19,7 +20,7 @@ public class Account  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Double balance = 0.0;
+    BigDecimal balance;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

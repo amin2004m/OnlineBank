@@ -1,13 +1,11 @@
 package az.bank.onlineBank.mapper;
 
-import az.bank.onlineBank.dto.CardRequest;
-import az.bank.onlineBank.dto.UserDto;
+import az.bank.onlineBank.dto.CardDTO;
 import az.bank.onlineBank.entities.Card;
-import az.bank.onlineBank.entities.User;
 
 public class CardMapper {
 
-    public static Card mapToEntity(CardRequest request) {
+    public static Card mapToEntity(CardDTO request) {
         Card card = new Card();
         card.setCardID(request.getCardID());
         card.setPan(request.getPan());

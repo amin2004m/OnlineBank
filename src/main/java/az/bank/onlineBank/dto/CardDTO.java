@@ -2,13 +2,11 @@ package az.bank.onlineBank.dto;
 
 import az.bank.onlineBank.customAnnotations.Luhn;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 @JsonPropertyOrder("name"+"surname"+"docFin"+ "phoneNumber" + "pan"+"cardID")
-public class CardRequest {
+public class CardDTO {
 
     Long cardID;
 //

@@ -1,7 +1,9 @@
 package az.bank.onlineBank.services;
 
+import az.bank.onlineBank.dto.AccountDto;
 import az.bank.onlineBank.entities.Account;
 import az.bank.onlineBank.entities.User;
+import az.bank.onlineBank.mapper.AccountMapper;
 import az.bank.onlineBank.repositories.AccountRepository;
 import az.bank.onlineBank.repositories.UserRepository;
 import lombok.AccessLevel;
@@ -23,19 +25,23 @@ public class AccountService {
         return accountRepository.getById(id);
     }
 
-    public Account createAccount(Account account, Long userId) {
+    public Account createAccount(Long userId,AccountDto accountDto) {
+
         User user = userRepository
                 .findById(userId).
                 orElseThrow(() -> new RuntimeException("User not found!"));
 
-        account.setUser(user);
-        Account savedAccount = accountRepository.save(account);
-        List<Account> accountList = user.getAccount();
-        accountList.add(savedAccount);
-        user.setAccount(accountList);
-        userRepository.save(user);
+        Account newAccount = AccountMapper.AccountToAccountDT(accountDto);
+        return accountRepository.save(newAccount);
 
-        return account;
+//        account.setUser(user);
+//        Account savedAccount = accountRepository.save(account);
+//        List<Account> accountList = user.getAccount();
+//        accountList.add(savedAccount);
+//        user.setAccount(accountList);
+//        userRepository.save(user);
+//
+//        return account;
     }
 
     public void deleteAccount(Long id) {

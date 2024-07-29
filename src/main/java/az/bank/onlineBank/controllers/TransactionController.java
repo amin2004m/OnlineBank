@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/transactions")
@@ -25,13 +27,13 @@ public class TransactionController {
 
     @PostMapping("/withdraw/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public Transactions withdraw(@PathVariable Long accountId, @RequestParam double amount) {
+    public Transactions withdraw(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
         return transactionsService.withdraw(accountId,amount);
     }
 
     @PostMapping("/deposit/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public Transactions deposit(@PathVariable Long accountId, @RequestParam double amount) {
+    public Transactions deposit(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
         return transactionsService.deposit(accountId,amount);
     }
 }

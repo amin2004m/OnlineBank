@@ -1,5 +1,6 @@
 package az.bank.onlineBank.controllers;
 
+import az.bank.onlineBank.dto.AccountDto;
 import az.bank.onlineBank.entities.Account;
 import az.bank.onlineBank.services.AccountService;
 import lombok.AccessLevel;
@@ -18,8 +19,8 @@ public class AccountController {
 
     @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Account createAccount(Account account, @PathVariable Long userId) {
-        return accountService.createAccount(account, userId);
+    public Account createAccount(@RequestBody AccountDto account, @PathVariable Long userId) {
+        return accountService.createAccount(userId, account);
     }
 
     @DeleteMapping("{id}")

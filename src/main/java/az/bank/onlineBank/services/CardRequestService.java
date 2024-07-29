@@ -1,10 +1,8 @@
 package az.bank.onlineBank.services;
 
 
-import az.bank.onlineBank.dto.CardRequest;
+import az.bank.onlineBank.dto.CardDTO;
 import az.bank.onlineBank.entities.Card;
-import az.bank.onlineBank.exception.ServiceException;
-import az.bank.onlineBank.exceptionEnum.ErrorEnum;
 import az.bank.onlineBank.mapper.CardMapper;
 import az.bank.onlineBank.repositories.CardRepository;
 import lombok.AccessLevel;
@@ -22,7 +20,7 @@ import org.springframework.validation.annotation.Validated;
 public class CardRequestService {
     CardRepository cardRepository;
 
-    public Card createCard(CardRequest request){
+    public Card createCard(CardDTO request){
         Card card = CardMapper.mapToEntity(request);
         return cardRepository.save(card);
     }

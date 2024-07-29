@@ -1,6 +1,6 @@
 package az.bank.onlineBank.controllers;
 
-import az.bank.onlineBank.dto.CardRequest;
+import az.bank.onlineBank.dto.CardDTO;
 import az.bank.onlineBank.entities.Card;
 import az.bank.onlineBank.services.CardRequestService;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class CardRequestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Card createPan(@RequestBody @Valid CardRequest card){
+    public Card createPan(@RequestBody @Valid CardDTO card){
         return cardRequestService.createCard(card);
     }
 
