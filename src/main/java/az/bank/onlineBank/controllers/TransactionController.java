@@ -1,6 +1,6 @@
 package az.bank.onlineBank.controllers;
 
-import az.bank.onlineBank.entities.Transactions;
+import az.bank.onlineBank.dto.TransactionResponse;
 import az.bank.onlineBank.services.TransactionsService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +27,13 @@ public class TransactionController {
 
     @PostMapping("/withdraw/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public Transactions withdraw(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
+    public TransactionResponse withdraw(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
         return transactionsService.withdraw(accountId,amount);
     }
 
     @PostMapping("/deposit/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public Transactions deposit(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
+    public TransactionResponse deposit(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
         return transactionsService.deposit(accountId,amount);
     }
 }

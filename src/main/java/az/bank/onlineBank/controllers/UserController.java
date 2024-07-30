@@ -1,6 +1,7 @@
 package az.bank.onlineBank.controllers;
 
-import az.bank.onlineBank.dto.UserDto;
+import az.bank.onlineBank.dto.UserRequest;
+import az.bank.onlineBank.dto.UserResponse;
 import az.bank.onlineBank.entities.User;
 import az.bank.onlineBank.services.UserService;
 import lombok.AccessLevel;
@@ -20,24 +21,24 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
-        List<UserDto> userDtoList = userService.getAllUsers();
-        return userDtoList;
+    public List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
+
     }
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public User registerUser(@RequestBody UserDto user) {
+    public UserResponse registerUser(@RequestBody UserRequest user) {
         return userService.register(user);
     }
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.CONTINUE)
-    public User login(@RequestParam String username, @RequestParam String password) {
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponse login(@RequestParam String username, @RequestParam String password) {
         return userService.login(username,password);
     }
     @GetMapping("id/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public User findUserById(@RequestParam Long id){
+    public UserResponse findUserById(@RequestParam Long id){
        return userService.findUserById(id);
     }
 }

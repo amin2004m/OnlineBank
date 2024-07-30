@@ -12,7 +12,7 @@ public class CardDTO {
 //
 //    @NotBlank(message = "pan should not be empty")
 //    @Size(min = 16, message = "Minimum size 16 !")
-    @Luhn()
+    @Luhn
     String pan;
 
 //    @NotBlank(message = "doc fin should not be empty")

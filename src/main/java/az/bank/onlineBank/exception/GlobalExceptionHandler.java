@@ -8,7 +8,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +34,7 @@ public class GlobalExceptionHandler {
                 .body(exception.getMessage());
     }
 
-//
+
 //    @ExceptionHandler(MethodArgumentNotValidException.class)
 //    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
 //        String errorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
@@ -59,7 +58,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> constraintViolationException(ConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<?> constraintViolationException(ConstraintViolationException ex) {
         List<String> errors = new ArrayList<>();
 
         ex.getConstraintViolations().forEach(cv -> errors.add(cv.getMessage()));

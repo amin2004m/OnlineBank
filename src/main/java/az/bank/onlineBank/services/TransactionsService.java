@@ -1,9 +1,8 @@
 package az.bank.onlineBank.services;
 
-import az.bank.onlineBank.dto.TransactionsDto;
+import az.bank.onlineBank.dto.TransactionResponse;
 import az.bank.onlineBank.entities.Transactions;
 import az.bank.onlineBank.exception.ServiceException;
-import az.bank.onlineBank.mapper.TransactionMapper;
 import az.bank.onlineBank.repositories.TransactionRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import static az.bank.onlineBank.mapper.TransactionMapper.mapToTransactionResponse;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -19,11 +20,11 @@ public class TransactionsService {
     TransactionRepository transactionRepository;
     AccountService accountService;
 
-    public BigDecimal checkBalance(Long accountId, TransactionsDto transactionsDto) {
+    public BigDecimal checkBalance(Long accountId) {
         return accountService.getAccountById(accountId).getBalance();
     }
 
-    public Transactions withdraw(Long accountId, BigDecimal amount) {
+    public TransactionResponse withdraw(Long accountId, BigDecimal amount) {
         BigDecimal currentBalance = accountService
                 .getAccountById(accountId)
                 .getBalance();
@@ -34,14 +35,17 @@ public class TransactionsService {
 
     }
 
-    public Transactions deposit(Long accountId, BigDecimal amount) {
+    public TransactionResponse deposit(Long accountId, BigDecimal amount) {
         Transactions deposit = new Transactions();
         deposit.setTransactionsId(accountId);
         deposit.setAmount(amount);
         deposit.setType("income");
-        transactionRepository.save(deposit);
-        return deposit;
+        Transactions savedTransaction = transactionRepository.save(deposit);
+
+        return mapToTransactionResponse(savedTransaction);
     }
+
+    //----------Private Methods
 
     private void checkEnoughBalance(BigDecimal currentBalance, BigDecimal amount) {
         if (currentBalance.compareTo(amount)<0) {
@@ -50,7 +54,7 @@ public class TransactionsService {
         }
     }
 
-    private Transactions doTransaction(Long accountId, BigDecimal amount) {
+    private TransactionResponse doTransaction(Long accountId, BigDecimal amount) {
 
         BigDecimal newAmount = amount.subtract(BigDecimal.ONE);
 
@@ -58,7 +62,7 @@ public class TransactionsService {
         withdraw.setTransactionsId(accountId);
         withdraw.setAmount(newAmount);
         withdraw.setType("outcome");
-        return transactionRepository.save(withdraw);
+        return mapToTransactionResponse(transactionRepository.save(withdraw));
     }
 
 }

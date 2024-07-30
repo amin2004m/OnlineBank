@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonPropertyOrder({"id,userId,balance"})
-public class AccountDto {
+public class AccountRequest {
 
     Long id;
     Long userId;
