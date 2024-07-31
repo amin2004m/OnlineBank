@@ -1,6 +1,7 @@
 package az.bank.onlineBank.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,12 +25,14 @@ public class User {
     Long userID;
 
     @Column(unique = true)
+    @NotBlank
     String username;
 
+    @NotBlank
     String password;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", nullable = true)
+    @JoinColumn(name = "account_id")
     List<Account> account;
 
     @CreationTimestamp

@@ -1,72 +1,69 @@
 package az.bank.onlineBank.exception;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Object> handleUserAlreadyException
-            (ServiceException exception) {
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(exception.getMessage());
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException exception) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setErrorCode(500);
+        errorResponse.setErrorMessage("Internal Server Error");
+        errorResponse.setUuid(UUID.randomUUID().toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(ServiceException.class)
-    public ResponseEntity<Object> handleUserNotFoundException
-            (ServiceException exception) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(exception.getMessage());
+    public ResponseEntity<ErrorResponse> handleServiceException(ServiceException exception) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setErrorCode(404);
+        errorResponse.setErrorMessage(exception.getMessage());
+        errorResponse.setUuid(UUID.randomUUID().toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
-
-
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-//        String errorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
-//        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-//    }
-
-
-    //////////////////////////////////////////////////////////////////////////
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, List<String>>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult().getFieldErrors()
-                .stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
-        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-    }
+    public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
+        List<FieldErrors> fieldErrors = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(fieldError -> new FieldErrors(fieldError.getField(), fieldError.getDefaultMessage()))
+                .collect(Collectors.toList());
 
-    private Map<String, List<String>> getErrorsMap(List<String> errors) {
-        Map<String, List<String>> errorResponse = new HashMap<>();
-        errorResponse.put("errors", errors);
-        return errorResponse;
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setErrorCode(400);
+        errorResponse.setErrorMessage("Validation Failed");
+        errorResponse.setUuid(UUID.randomUUID().toString());
+        errorResponse.setFieldErrors(fieldErrors);
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> constraintViolationException(ConstraintViolationException ex) {
-        List<String> errors = new ArrayList<>();
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex) {
+        List<FieldErrors> fieldErrors = ex.getConstraintViolations().stream()
+                .map(this::mapToFieldError)
+                .collect(Collectors.toList());
 
-        ex.getConstraintViolations().forEach(cv -> errors.add(cv.getMessage()));
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setErrorCode(400);
+        errorResponse.setErrorMessage("Constraint Violation");
+        errorResponse.setUuid(UUID.randomUUID().toString());
+        errorResponse.setFieldErrors(fieldErrors);
 
-        Map<String, List<String>> result = new HashMap<>();
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
-        result.put("errors", errors);
-
-        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    private FieldErrors mapToFieldError(ConstraintViolation<?> violation) {
+        return new FieldErrors(violation.getPropertyPath().toString(), violation.getMessage());
     }
 }

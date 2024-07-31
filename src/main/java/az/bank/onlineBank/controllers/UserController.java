@@ -38,7 +38,7 @@ public class UserController {
     }
     @GetMapping("id/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserResponse findUserById(@RequestParam Long id){
+    public UserResponse findUserById(@PathVariable Long id){
        return userService.findUserById(id);
     }
 }
