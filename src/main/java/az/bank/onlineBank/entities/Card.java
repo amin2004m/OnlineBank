@@ -1,9 +1,7 @@
 package az.bank.onlineBank.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 
@@ -11,6 +9,9 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Table(name = "card_request")
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Card {
 

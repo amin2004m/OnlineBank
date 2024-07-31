@@ -6,17 +6,14 @@ import az.bank.onlineBank.entities.Card;
 public class CardMapper {
 
     public static Card mapToEntity(CardDTO request) {
-        Card card = new Card();
-        card.setCardID(request.getCardID());
-        card.setPan(request.getPan());
-//        card.setDocFin(request.getDocFin());
-//        card.setName(request.getName());
-//        card.setSurname(request.getSurname());
-//        card.setPhoneNumber(request.getPhoneNumber());
-        return card;
+
+        return Card.builder()
+                .cardID(request.getCardID())
+                .pan(request.getPan())
+                .docFin(request.getDocFin())
+                .name(request.getName())
+                .surname(request.getSurname())
+                .phoneNumber(request.getPhoneNumber())
+                .build();
     }
-//    public static User mapToUserDto(UserDto userDto){
-//
-//
-//    }
 }
