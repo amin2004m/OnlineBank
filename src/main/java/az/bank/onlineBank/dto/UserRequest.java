@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -16,7 +16,7 @@ public class UserRequest {
 
     Long userId;
     String username;
-    Long accountId;
-    LocalDateTime createdAt;
     String password;
+    Boolean isActive = true;
+    Set<AccountRequest> accounts;
 }

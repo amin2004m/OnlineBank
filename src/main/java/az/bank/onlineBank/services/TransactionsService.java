@@ -13,10 +13,12 @@ import java.math.BigDecimal;
 
 import static az.bank.onlineBank.mapper.TransactionMapper.mapToTransactionResponse;
 
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class TransactionsService {
+
     TransactionRepository transactionRepository;
     AccountService accountService;
 
@@ -35,20 +37,26 @@ public class TransactionsService {
 
     }
 
-    public TransactionResponse deposit(Long accountId, BigDecimal amount) {
+    public BigDecimal deposit(Long accountId, BigDecimal amount,BigDecimal balance) {
         Transactions deposit = new Transactions();
         deposit.setTransactionsId(accountId);
         deposit.setAmount(amount);
         deposit.setType("income");
         Transactions savedTransaction = transactionRepository.save(deposit);
 
-        return mapToTransactionResponse(savedTransaction);
+        return totalBalance(amount,balance);
+//         mapToTransactionResponse(savedTransaction);
     }
 
     //----------Private Methods
 
+    private BigDecimal totalBalance(BigDecimal amount,BigDecimal balance){
+        BigDecimal total = balance.add(amount);
+        return total;
+    }
+
     private void checkEnoughBalance(BigDecimal currentBalance, BigDecimal amount) {
-        if (currentBalance.compareTo(amount)<0) {
+        if (currentBalance.compareTo(amount) < 0) {
             System.out.println("Transaction Failed !");
             throw ServiceException.of(101, "Balance is not enough");
         }

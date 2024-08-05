@@ -28,12 +28,16 @@ public class TransactionController {
     @PostMapping("/withdraw/{accountId}")
     @ResponseStatus(HttpStatus.OK)
     public TransactionResponse withdraw(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
-        return transactionsService.withdraw(accountId,amount);
+        return transactionsService.withdraw(accountId, amount);
     }
 
     @PostMapping("/deposit/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public TransactionResponse deposit(@PathVariable Long accountId, @RequestParam BigDecimal amount) {
-        return transactionsService.deposit(accountId,amount);
+    public BigDecimal deposit(@PathVariable Long accountId,
+                              @RequestParam BigDecimal amount,
+                              @RequestParam(required = false) BigDecimal balance) {
+
+        return transactionsService.deposit(accountId, amount, balance);
     }
+
 }

@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("v1/card")
 @RequiredArgsConstructor
-@FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class CardRequestController {
     CardRequestService cardRequestService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Card createPan(@RequestBody @Valid CardDTO card){
+    public Card createPan(@RequestBody @Valid CardDTO card) {
         return cardRequestService.createCard(card);
     }
 

@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException exception) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setErrorCode(500);
-        errorResponse.setErrorMessage("Internal Server Error");
+        errorResponse.setErrorMessage(exception.getMessage());
         errorResponse.setUuid(UUID.randomUUID().toString());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

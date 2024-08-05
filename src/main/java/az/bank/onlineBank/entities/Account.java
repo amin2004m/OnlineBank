@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -16,20 +16,20 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "accounts")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Account  {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_ID")
     Long id;
 
-    BigDecimal balance;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    BigDecimal balance = BigDecimal.ZERO;
+
+    @ManyToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     User user;
 
-    @OneToMany
-    List<Transactions> transactionsList;
-
-
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Transactions> transactionsList;
 
 }

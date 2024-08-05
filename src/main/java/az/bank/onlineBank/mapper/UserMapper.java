@@ -4,27 +4,31 @@ import az.bank.onlineBank.dto.UserRequest;
 import az.bank.onlineBank.dto.UserResponse;
 import az.bank.onlineBank.entities.Account;
 import az.bank.onlineBank.entities.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 
+@Component
+@RequiredArgsConstructor
 public class UserMapper {
 
-    public static User mapToUserEntity(UserRequest userRequest){
+    public static User mapToUserEntity(UserRequest userRequest) {
 
         Account account = new Account();
 
         User user = User.builder()
                 .userID(userRequest.getUserId())
                 .username(userRequest.getUsername())
-                .createdAt(userRequest.getCreatedAt())
                 .password(userRequest.getPassword())
                 .updatedAt(LocalDateTime.now())
+                .isActive(userRequest.getIsActive())
                 .build();
 
-        List<Account> accountList = user.getAccount();
-        accountList.add(account);
+//        Set<Account> accountList = user.getAccounts();
+//        accountList.add(account);
 
         return user;
     }
@@ -36,7 +40,6 @@ public class UserMapper {
                 .password(user.getPassword())
                 .createdAt(user.getCreatedAt())
                 .build();
-
     }
 
 }
