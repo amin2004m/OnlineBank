@@ -21,7 +21,8 @@ public class AccountController {
 
     @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountResponse createAccount(@RequestBody AccountRequest account, @PathVariable Long userId) {
+    public AccountResponse createAccount(@RequestBody AccountRequest account,
+                                         @PathVariable Long userId) {
         return accountService.createAccount(userId, account);
     }
 
@@ -33,7 +34,6 @@ public class AccountController {
 
     @GetMapping
     public Set<AccountResponse> getAllAccounts() {
-
         return accountService.getAllAccountResponse();
     }
 

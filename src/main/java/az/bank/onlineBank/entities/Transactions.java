@@ -5,8 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -18,10 +16,9 @@ import java.util.Set;
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-            @Column(name = "transaction_ID")
+    @Column(name = "transaction_ID")
     Long transactionsId;
     BigDecimal amount;
-
     String type;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

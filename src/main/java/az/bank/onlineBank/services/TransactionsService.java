@@ -30,9 +30,7 @@ public class TransactionsService {
         BigDecimal currentBalance = accountService
                 .getAccountById(accountId)
                 .getBalance();
-
         checkEnoughBalance(currentBalance, amount);
-
         return doTransaction(accountId, amount);
 
     }
@@ -45,7 +43,6 @@ public class TransactionsService {
         Transactions savedTransaction = transactionRepository.save(deposit);
 
         return totalBalance(amount,balance);
-//         mapToTransactionResponse(savedTransaction);
     }
 
     //----------Private Methods

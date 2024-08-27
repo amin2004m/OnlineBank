@@ -40,14 +40,12 @@ public class UserService {
     }
 
     public UserResponse register(UserRequest userRequest) {
-
         userRepository.findByUsername(userRequest.getUsername())
                 .ifPresent(
                         user -> {
                             throw ServiceException.of(USER_ALREADY_EXCEPTION);
                         }
                 );
-
         User newUser = UserMapper.mapToUserEntity(userRequest);
         userRepository.save(newUser);
 

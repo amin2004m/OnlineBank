@@ -22,7 +22,6 @@ public class Account {
     @Column(name = "account_ID")
     Long id;
 
-
     BigDecimal balance = BigDecimal.ZERO;
 
     @ManyToOne( cascade = CascadeType.ALL)

@@ -22,7 +22,6 @@ public class UserController {
     @GetMapping
     public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
-
     }
 
     @PostMapping("/register")

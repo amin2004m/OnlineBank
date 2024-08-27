@@ -20,13 +20,9 @@ public class Card {
     Long cardID;
 
     String pan;
-
     String docFin;
-
     String name;
-
     String surname;
-
     String phoneNumber;
 
 }

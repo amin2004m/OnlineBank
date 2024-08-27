@@ -48,8 +48,7 @@ public class AccountService {
         accountRepository.deleteById(id);
     }
 
-    /////////////////////////////////
-
+    //private methods
 
     protected void saveAccountsAll(Set<Account> accounts){
         accountRepository.saveAll(accounts);
@@ -61,6 +60,5 @@ public class AccountService {
         Set<AccountResponse> collect = accounts.stream().map(AccountMapper::mapToAccountResponse).collect(Collectors.toSet());
         return collect;
     }
-
 
 }
